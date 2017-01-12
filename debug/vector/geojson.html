@@ -9,8 +9,8 @@
 
 	<style>
 		#map {
-			width: 800px;
-			height: 500px;
+			width: 1200px;
+			height: 900px;
 		}
 
 		.info {
@@ -48,13 +48,33 @@
 	<div id="map"></div>
 
 	<script type="text/javascript" src="us-states.js"></script>
+		<script type="text/javascript" src="counties.js"></script>
+		<script type="text/javascript" src="Flood_wgs.js"></script>
 	<script type="text/javascript">
 
-		var map = L.map('map').setView([37.8, -96], 4);
+		var map = L.map('map').setView([39.666215, -74.217839], 12);
 
 		var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 		}).addTo(map);
+//iris
+// var myLines = [{
+//     "type": "LineString",
+//     "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
+// }, {
+//     "type": "LineString",
+//     "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
+// }];
+
+// var myStyle = {
+//     "color": "#ff7800",
+//     "weight": 5,
+//     "opacity": 0.65
+// };
+
+// L.geoJSON(myLines, {
+//     style: myStyle
+// }).add
 
 
 		// control that shows state info on hover
@@ -68,7 +88,7 @@
 
 		info.update = function (props) {
 			this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-				'<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+				'<b>' + props.FLD_ZONE + '</b><br />' + props.STATIC_BFE + ' people / mi<sup>2</sup>'
 				: 'Hover over a state');
 		};
 
@@ -77,14 +97,25 @@
 
 		// get color depending on population density value
 		function getColor(d) {
-			return d > 1000 ? '#800026' :
-					d > 500  ? '#BD0026' :
-					d > 200  ? '#E31A1C' :
-					d > 100  ? '#FC4E2A' :
-					d > 50   ? '#FD8D3C' :
-					d > 20   ? '#FEB24C' :
-					d > 10   ? '#FED976' :
-								'#FFEDA0';
+			// return d > 15 ? '#800026' :
+			// 		d > 10  ? '#BD0026' :
+			// 		d > 9  ? '#E31A1C' :
+			// 		d > 8  ? '#FC4E2A' :
+			// 		d > 7   ? '#FD8D3C' :
+			// 		d > 6   ? '#FEB24C' :
+			// 		d > 5   ? '#FED976' :
+			// 					'#FFEDA0';
+
+
+			return d > 15 ? '#FFEDA0':
+					d > 10  ? '#FED976':
+					d > 9  ? '#FEB24C':
+					d > 8  ? '#FD8D3C':
+					d > 7   ? '#FC4E2A':
+					d > 6   ? '#E31A1C':
+					d > 5   ? '#BD0026':
+								'#800026' ;
+
 		}
 
 		function style(feature) {
@@ -94,7 +125,7 @@
 				color: 'white',
 				dashArray: '3',
 				fillOpacity: 0.7,
-				fillColor: getColor(feature.properties.density)
+				fillColor: getColor(feature.properties.STATIC_BFE)
 			};
 		}
 
@@ -134,13 +165,27 @@
 			});
 		}
 
-		geojson = L.geoJson(statesData, {
+		// geojson = L.geoJson(statesData, {
+		// 	style: style,
+		// 	onEachFeature: onEachFeature,
+		// 	attribution: 'Population data &copy; <a href="http://census.gov/">US Census Bureau</a>'
+		// });
+
+		// geojson.addTo(map);
+
+//iris test
+		var test;
+		test = L.geoJson(FloodData, {
 			style: style,
 			onEachFeature: onEachFeature,
-			attribution: 'Population data &copy; <a href="http://census.gov/">US Census Bureau</a>'
+			// attribution: 'Population data &copy; <a href="http://census.gov/">US Census Bureau</a>'
 		});
 
-		geojson.addTo(map);
+		test.addTo(map);
+
+
+
+
 
 
 		var legend = L.control({position: 'bottomright'});
@@ -148,7 +193,7 @@
 		legend.onAdd = function (map) {
 
 			var div = L.DomUtil.create('div', 'info legend'),
-				grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+				grades = [5, 6, 7, 8, 9, 10, 15, 20],
 				labels = [],
 				from, to;
 
