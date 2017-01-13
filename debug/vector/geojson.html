@@ -10,7 +10,7 @@
 	<style>
 		#map {
 			width: 1200px;
-			height: 850px;
+			height: 750px;
 		}
 
 		.info {
@@ -90,7 +90,7 @@ marker.on('dragend', function (e) {
 
 		info.update = function (props) {
 			//console.log(props.FLD_ZONE + '<br />' + '<b>'+'Base Flood Elevation: '+'</b>'+ props.STATIC_BFE + ' feet')
-			this._div.innerHTML = '<h4>FEMA National Flood Hazard Layer (BFE)</h4>' +  (props ?
+			this._div.innerHTML = '<h4>FEMA National Flood Hazard Layer (BFE)</h4>' +'By Rutgers RISE'+'<br>'+'<br>'+  (props ?
 				'<b>' + 'Flood Zone: </b>'+props.FLD_ZONE + '<br />' + '<b>'+'Base Flood Elevation: '+'</b>'+ props.STATIC_BFE + ' feet'
 				: 'Click on an area');
 		};
