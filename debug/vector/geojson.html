@@ -10,7 +10,7 @@
 	<style>
 		#map {
 			width: 1200px;
-			height: 900px;
+			height: 850px;
 		}
 
 		.info {
@@ -54,49 +54,30 @@
 	var latitude_temp = 0;
 	var longitude_temp = 0;
 
-		var map = L.map('map').setView([39.666215, -74.217839], 12);
-		var marker = L.marker([39.666215, -74.217839]).addTo(map);
+		var map = L.map('map').setView([39.666215, -74.217839], 13);
+		//iris get current map center
+		map.on('moveend',function(){console.log(map.getCenter());})
+		//iris pan map to location
+		var marker = L.marker([39.666215, -74.217839],{draggable: true}).addTo(map);
 		//iris tilelayer references https://leaflet-extras.github.io/leaflet-providers/preview/
 		// var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		// 	attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 		// }).addTo(map);
 
+		//iris edit tilelayer- world imagery map, maxzoom 18
 		var osm = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/ti\
 le/{z}/{y}/{x}', {
 			maxZoom:18,
 			attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 		}).addTo(map);
 
+//iris get current marker location when dragend 
+marker.on('dragend', function (e) {
+    document.getElementById('latitude').value = marker.getLatLng().lat;
+    document.getElementById('longitude').value = marker.getLatLng().lng;
+});
 
-
-
-
-		// googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
-  //  		 maxZoom: 20,
-  //   		subdomains:['mt0','mt1','mt2','mt3']
-		// });
-
-
-
-//iris
-// var myLines = [{
-//     "type": "LineString",
-//     "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
-// }, {
-//     "type": "LineString",
-//     "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
-// }];
-
-// var myStyle = {
-//     "color": "#ff7800",
-//     "weight": 5,
-//     "opacity": 0.65
-// };
-
-// L.geoJSON(myLines, {
-//     style: myStyle
-// }).add
-
+//iris set marker location function
 
 		// control that shows state info on hover
 		var info = L.control();
@@ -109,7 +90,6 @@ le/{z}/{y}/{x}', {
 
 		info.update = function (props) {
 			//console.log(props.FLD_ZONE + '<br />' + '<b>'+'Base Flood Elevation: '+'</b>'+ props.STATIC_BFE + ' feet')
-
 			this._div.innerHTML = '<h4>FEMA National Flood Hazard Layer (BFE)</h4>' +  (props ?
 				'<b>' + 'Flood Zone: </b>'+props.FLD_ZONE + '<br />' + '<b>'+'Base Flood Elevation: '+'</b>'+ props.STATIC_BFE + ' feet'
 				: 'Click on an area');
@@ -127,35 +107,6 @@ map.on('click', function(e) {
 	latitude_temp = e.latlng.lat;
     console.log("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng);
 });
-
-
-//iris emulate a click event(test2,failed, does not work??? no idea)
-// function clickOnMapItem(itemId) {
-//     var id = parseInt(itemId);
-
-//     //get target layer by it's id
-//     var layer = geojson.getLayer(id);
-//     console.log(layer)
-//     //fire event 'click' on target layer 
-//     layer.fireEvent('click');  
-// }
-//clickOnMapItem(4);
-//end of test2
-
-///##############################################
-//iris emulate a click event (test 3, success)
-
-
-    // var latlngPoint = new L.LatLng(39.712997159156195, -74.18861389160158);
-
-    // map.fireEvent('click', {
-    //   latlng: latlngPoint,
-    //   layerPoint: map.latLngToLayerPoint(latlngPoint),
-    //   containerPoint: map.latLngToContainerPoint(latlngPoint)
-    // });
-
-//end of test3
-//################################################
 
 
 
@@ -258,10 +209,6 @@ map.on('click', function(e) {
 		geojson.addTo(map);
 
 
-
-
-
-
 		var legend = L.control({position: 'bottomright'});
 
 		legend.onAdd = function (map) {
@@ -286,9 +233,22 @@ map.on('click', function(e) {
 
 		legend.addTo(map);
 
+	function setMarker_Location() { 
+		console.log('set Marker_Location');
+		    var lat = (document.getElementById('latitude').value);
+    		var lng = ( document.getElementById('longitude').value);
+    		var newLatLng = new L.LatLng(lat, lng);
+    		marker.setLatLng(newLatLng);}
+
 	</script>
 
-
+<form>
+      <label for="latitude">Latitude:</label>
+      <input id="latitude" type="text" value = "39.663732696566846"/>
+      <label for="longitude">Longitude:</label>
+      <input id="longitude" type="text"  value = "-74.22107934951784"/>
+    </form>
+          <button onclick = "setMarker_Location()">Search</button>
 
 
 </body>
