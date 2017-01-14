@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+   <Document>
+      <name>0914PH9F_0001_NJSPSF     </name>
+      <Placemark>
+         <Snippet maxLines="0"> </Snippet>
+         <description> </description>
+         <name>Polygon 1</name>
+         <Style>
+            <LineStyle>
+               <color>b300ffff</color>
+            </LineStyle>
+            <PolyStyle>
+               <color>4d00ffff</color>
+               <fill>1</fill>
+               <outline>1</outline>
+            </PolyStyle>
+         </Style>
+         <Polygon>
+            <altitudeMode>absolute</altitudeMode>
+            <outerBoundaryIs>
+               <LinearRing>
+                  <coordinates> -74.0786935,39.960404,10 -74.0786935,39.9580595,10 -74.0761836,39.9580595,10 -74.0761836,39.960404,10 -74.0786935,39.960404,10</coordinates>
+               </LinearRing>
+            </outerBoundaryIs>
+         </Polygon>
+      </Placemark>
+   </Document>
+</kml>

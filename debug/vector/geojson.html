@@ -4,13 +4,16 @@
 	<title>Leaflet debug page</title>
 
 	<link rel="stylesheet" href="../../dist/leaflet.css" />
-
 	<link rel="stylesheet" href="../css/screen.css" />
+<!-- 	iris add plugin from mapbox for kml reader -->
+	<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
 
 	<style>
 		#map {
-			width: 1200px;
-			height: 900px;
+			width: 800px;
+			height: 600px;
 		}
 
 		.info {
@@ -51,31 +54,33 @@
 		<script type="text/javascript" src="counties.js"></script>
 		<script type="text/javascript" src="Flood_wgs.js"></script>
 	<script type="text/javascript">
+	var latitude_temp = 0;
+	var longitude_temp = 0;
 
-		var map = L.map('map').setView([39.666215, -74.217839], 12);
+		var map = L.map('map').setView([39.666215, -74.217839], 13);
+		//iris get current map center
+		map.on('moveend',function(){console.log(map.getCenter());})
+		//iris pan map to location
+		var marker = L.marker([39.666215, -74.217839],{draggable: true}).addTo(map);
+		//iris tilelayer references https://leaflet-extras.github.io/leaflet-providers/preview/
+		// var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		// 	attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		// }).addTo(map);
 
-		var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		//iris edit tilelayer- world imagery map, maxzoom 18
+		var osm = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/ti\
+le/{z}/{y}/{x}', {
+			maxZoom:18,
 			attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 		}).addTo(map);
-//iris
-// var myLines = [{
-//     "type": "LineString",
-//     "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
-// }, {
-//     "type": "LineString",
-//     "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
-// }];
 
-// var myStyle = {
-//     "color": "#ff7800",
-//     "weight": 5,
-//     "opacity": 0.65
-// };
+//iris get current marker location when dragend 
+marker.on('dragend', function (e) {
+    document.getElementById('latitude').value = marker.getLatLng().lat;
+    document.getElementById('longitude').value = marker.getLatLng().lng;
+});
 
-// L.geoJSON(myLines, {
-//     style: myStyle
-// }).add
-
+//iris set marker location function
 
 		// control that shows state info on hover
 		var info = L.control();
@@ -87,34 +92,49 @@
 		};
 
 		info.update = function (props) {
-			this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-				'<b>' + props.FLD_ZONE + '</b><br />' + props.STATIC_BFE + ' people / mi<sup>2</sup>'
-				: 'Hover over a state');
+			//console.log(props.FLD_ZONE + '<br />' + '<b>'+'Base Flood Elevation: '+'</b>'+ props.STATIC_BFE + ' feet')
+			this._div.innerHTML = '<h4>FEMA National Flood Hazard Layer (BFE)</h4>' +'By Rutgers RISE'+'<br>'+'<br>'+  (props ?
+				'<b>' + 'Flood Zone: </b>'+props.FLD_ZONE + '<br />' + '<b>'+'Base Flood Elevation: '+'</b>'+ props.STATIC_BFE + ' feet'
+				: 'Click on an area');
 		};
 
 		info.addTo(map);
+//iris add mouse click function to retrieve longitude and latitude
+map.on('click', function(e) {
+	//iris update layer feature
+	var layer = e.target;
+	//console.log(e.originalEvent.srcElement._leaflet_id)
+	var test = e.originalEvent.srcElement._leaflet_id;
+	console.log('Flood Zone:',layer._targets[test].feature.properties.FLD_ZONE,'BEF:',layer._targets[test].feature.properties.STATIC_BFE)
+	longitude_temp = e.latlng.lng;
+	latitude_temp = e.latlng.lat;
+    console.log("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng);
+});
+
+
+
 
 
 		// get color depending on population density value
 		function getColor(d) {
-			// return d > 15 ? '#800026' :
-			// 		d > 10  ? '#BD0026' :
-			// 		d > 9  ? '#E31A1C' :
-			// 		d > 8  ? '#FC4E2A' :
-			// 		d > 7   ? '#FD8D3C' :
-			// 		d > 6   ? '#FEB24C' :
-			// 		d > 5   ? '#FED976' :
-			// 					'#FFEDA0';
+			return d > 15 ? '#800026' :
+					d > 10  ? '#BD0026' :
+					d > 9  ? '#E31A1C' :
+					d > 8  ? '#FC4E2A' :
+					d > 7   ? '#FD8D3C' :
+					d > 6   ? '#FEB24C' :
+					d > 5   ? '#FED976' :
+								'#FFEDA0';
 
 
-			return d > 15 ? '#FFEDA0':
-					d > 10  ? '#FED976':
-					d > 9  ? '#FEB24C':
-					d > 8  ? '#FD8D3C':
-					d > 7   ? '#FC4E2A':
-					d > 6   ? '#E31A1C':
-					d > 5   ? '#BD0026':
-								'#800026' ;
+			// return d > 15 ? '#FFEDA0':
+			// 		d > 10  ? '#FED976':
+			// 		d > 9  ? '#FEB24C':
+			// 		d > 8  ? '#FD8D3C':
+			// 		d > 7   ? '#FC4E2A':
+			// 		d > 6   ? '#E31A1C':
+			// 		d > 5   ? '#BD0026':
+			// 					'#800026' ;
 
 		}
 
@@ -131,6 +151,7 @@
 
 		function highlightFeature(e) {
 			var layer = e.target;
+			//console.log(e.target);
 
 			layer.setStyle({
 				weight: 5,
@@ -154,15 +175,22 @@
 		}
 
 		function zoomToFeature(e) {
+			//console.log(e);
 			map.fitBounds(e.target.getBounds());
 		}
 
 		function onEachFeature(feature, layer) {
 			layer.on({
-				mouseover: highlightFeature,
+				click: highlightFeature,
 				mouseout: resetHighlight,
-				click: zoomToFeature
+				//click: zoomToFeature,
 			});
+			//iris added for emuate mouse click(latlng)
+			
+			//layer._leaflet_id = feature.properties.OBJECTID;
+			//layer._leaflet_id = feature.properties.OBJECTID;
+			//layer.test = feature.properties;
+			//console.log('feature',feature.properties);
 		}
 
 		// geojson = L.geoJson(statesData, {
@@ -173,20 +201,23 @@
 
 		// geojson.addTo(map);
 
-//iris test
-		var test;
-		test = L.geoJson(FloodData, {
+//iris input floodzone geojson data into leaflet system
+		var geojson;
+		geojson = L.geoJson(FloodData, {
 			style: style,
 			onEachFeature: onEachFeature,
-			// attribution: 'Population data &copy; <a href="http://census.gov/">US Census Bureau</a>'
+			//attribution: 'Population data &copy; <a href="http://census.gov/">US Census Bureau</a>'
 		});
-
-		test.addTo(map);
-
-
+		geojson.addTo(map);
+//end of floodzone geojson
 
 
 
+//iris test load FEMA Kml file
+// var runLayer = omnivore.kml('FEMA_all_boundary/test.kml',{draggable: true})
+//     .addTo(map).bringToFront();
+
+//end of FEMA kml file
 
 		var legend = L.control({position: 'bottomright'});
 
@@ -212,6 +243,23 @@
 
 		legend.addTo(map);
 
+	function setMarker_Location() { 
+		console.log('set Marker_Location');
+		    var lat = (document.getElementById('latitude').value);
+    		var lng = ( document.getElementById('longitude').value);
+    		var newLatLng = new L.LatLng(lat, lng);
+    		marker.setLatLng(newLatLng);}
+
 	</script>
+
+<form>
+      <label for="latitude">Latitude:</label>
+      <input id="latitude" type="text" value = "39.663732696566846"/>
+      <label for="longitude">Longitude:</label>
+      <input id="longitude" type="text"  value = "-74.22107934951784"/>
+    </form>
+          <button onclick = "setMarker_Location()">Search</button>
+
+
 </body>
 </html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+   <Document>
+      <name>0531PH04_0042            </name>
+      <Placemark>
+         <Snippet maxLines="0"> </Snippet>
+         <description> </description>
+         <name>Polygon 1</name>
+         <Style>
+            <LineStyle>
+               <color>b300ffff</color>
+            </LineStyle>
+            <PolyStyle>
+               <color>4d00ffff</color>
+               <fill>1</fill>
+               <outline>1</outline>
+            </PolyStyle>
+         </Style>
+         <Polygon>
+            <altitudeMode>absolute</altitudeMode>
+            <outerBoundaryIs>
+               <LinearRing>
+                  <coordinates> -74.1541364,39.6792335,10 -74.1541364,39.6769626,10 -74.150986,39.6769626,10 -74.150986,39.6792335,10 -74.1541364,39.6792335,10</coordinates>
+               </LinearRing>
+            </outerBoundaryIs>
+         </Polygon>
+      </Placemark>
+   </Document>
+</kml>
