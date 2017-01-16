@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+   <Document>
+      <name>0512PH12_A_0026_NJSPSF   </name>
+      <Placemark>
+         <Snippet maxLines="0"> </Snippet>
+         <description> </description>
+         <name>0512PH12_A_0026_NJSPSF   </name>
+         <Point>
+            <coordinates>-74.21930225,39.5888533,0</coordinates>
+         </Point>
+      </Placemark>
+   </Document>
+</kml>
