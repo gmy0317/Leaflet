@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+   <Document>
+      <name>0516PH18_01_0002         </name>
+      <Placemark>
+         <Snippet maxLines="0"> </Snippet>
+         <description> </description>
+         <name>0516PH18_01_0002         </name>
+         <Point>
+            <coordinates>-74.054737,40.0709561,0</coordinates>
+         </Point>
+      </Placemark>
+   </Document>
+</kml>
