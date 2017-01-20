@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Iris debug page</title>
+
+	<link rel="stylesheet" href="../../dist/leaflet.css" />
+	<link rel="stylesheet" href="../css/screen.css" />
+<!-- 	iris add plugin from mapbox for kml reader -->
+	<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+
+	<style>
+		#map {
+
+			width: 1500px;
+			height: 900px;
+
+/*			width: 1200px;
+			height: 750px;*/
+
+		}
+
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+	</style>
+
+	<script type="text/javascript" src="../../build/deps.js"></script>
+	<script src="../leaflet-include.js"></script>
+</head>
+<body>
+
+	<div id="map"></div>
+
+	<script type="text/javascript" src="us-states.js"></script>
+		<script type="text/javascript" src="counties.js"></script>
+		<script type="text/javascript" src="Ocean_AV_Zone.js"></script>
+	<script type="text/javascript">
+	var latitude_temp = 0;
+	var longitude_temp = 0;
+
+		var map = L.map('map').setView([39.666215, -74.217839], 13);
+		//iris get current map center
+		map.on('moveend',function(){console.log(map.getCenter());})
+		//iris pan map to location
+		var marker = L.marker([39.666215, -74.217839],{draggable: true}).addTo(map);
+		//iris tilelayer references https://leaflet-extras.github.io/leaflet-providers/preview/
+		// var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		// 	attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		// }).addTo(map);
+
+		//iris edit tilelayer- world imagery map, maxzoom 18
+		var osm = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/ti\
+le/{z}/{y}/{x}', {
+			maxZoom:18,
+			attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		}).addTo(map);
+
+//iris get current marker location when dragend 
+marker.on('dragend', function (e) {
+    document.getElementById('latitude').value = marker.getLatLng().lat;
+    document.getElementById('longitude').value = marker.getLatLng().lng;
+});
+
+//iris set marker location function
+
+		// control that shows state info on hover
+		var info = L.control();
+
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+
+		info.update = function (props) {
+			//console.log(props.FLD_ZONE + '<br />' + '<b>'+'Base Flood Elevation: '+'</b>'+ props.STATIC_BFE + ' feet')
+			this._div.innerHTML = '<h4>Ocean AV Zone</h4>' +'By Rutgers RISE'+'<br>';
+		};
+
+		info.addTo(map);
+//iris add mouse click function to retrieve longitude and latitude
+map.on('click', function(e) {
+	//iris update layer feature
+	var layer = e.target;
+	//console.log(e.originalEvent.srcElement._leaflet_id)
+	var test = e.originalEvent.srcElement._leaflet_id;
+	console.log('Flood Zone:',layer._targets[test].feature.properties.FLD_ZONE,'BEF:',layer._targets[test].feature.properties.STATIC_BFE)
+	longitude_temp = e.latlng.lng;
+	latitude_temp = e.latlng.lat;
+    console.log("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng);
+});
+
+
+
+
+
+		// get color depending on population density value
+		function getColor(d) {
+			return d > 15 ? '#800026' :
+					d > 10  ? '#BD0026' :
+					d > 9  ? '#E31A1C' :
+					d > 8  ? '#FC4E2A' :
+					d > 7   ? '#FD8D3C' :
+					d > 6   ? '#FEB24C' :
+					d > 5   ? '#FED976' :
+								'#FFEDA0';
+
+
+		}
+
+		function style(feature) {
+			return {
+				weight: 3,
+				opacity: 1,
+				color: 'red',
+				dashArray: '3',
+				fillOpacity: 0.7,
+				fillColor: getColor(feature.properties.STATIC_BFE)
+			};
+		}
+
+		function highlightFeature(e) {
+			var layer = e.target;
+			//console.log(e.target);
+
+			layer.setStyle({
+				weight: 5,
+				color: '#666',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie) {
+				layer.bringToFront();
+			}
+
+			info.update(layer.feature.properties);
+		}
+
+		var geojson;
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			info.update();
+		}
+
+		function zoomToFeature(e) {
+			//console.log(e);
+			map.fitBounds(e.target.getBounds());
+		}
+
+		function onEachFeature(feature, layer) {
+			layer.on({
+				click: highlightFeature,
+				mouseout: resetHighlight,
+				//click: zoomToFeature,
+			});
+			//iris added for emuate mouse click(latlng)
+			
+			//layer._leaflet_id = feature.properties.OBJECTID;
+			//layer._leaflet_id = feature.properties.OBJECTID;
+			//layer.test = feature.properties;
+			//console.log('feature',feature.properties);
+		}
+
+		// geojson = L.geoJson(statesData, {
+		// 	style: style,
+		// 	onEachFeature: onEachFeature,
+		// 	attribution: 'Population data &copy; <a href="http://census.gov/">US Census Bureau</a>'
+		// });
+
+		// geojson.addTo(map);
+
+//iris input floodzone geojson data into leaflet system
+		var geojson;
+		geojson = L.geoJson(AV_zone, {
+			style: style,
+			onEachFeature: onEachFeature,
+			//attribution: 'Population data &copy; <a href="http://census.gov/">US Census Bureau</a>'
+		});
+
+		geojson.addTo(map);
+//end of floodzone geojson
+
+
+
+//iris test load FEMA Kml file
+// var runLayer = omnivore.kml('FEMA_all_boundary/test.kml',{draggable: true})
+//     .addTo(map).bringToFront();
+
+
+		geojson.addTo(map);
+
+
+//end of FEMA kml file
+
+		// var legend = L.control({position: 'bottomright'});
+
+		// legend.onAdd = function (map) {
+
+		// 	var div = L.DomUtil.create('div', 'info legend'),
+		// 		grades = [5, 6, 7, 8, 9, 10, 15, 20],
+		// 		labels = [],
+		// 		from, to;
+
+		// 	for (var i = 0; i < grades.length; i++) {
+		// 		from = grades[i];
+		// 		to = grades[i + 1];
+
+		// 		labels.push(
+		// 			'<i style="background:' + getColor(from + 1) + '"></i> ' +
+		// 			from + (to ? '&ndash;' + to : '+'));
+		// 	}
+
+		// 	div.innerHTML = labels.join('<br>');
+		// 	return div;
+		// };
+
+		// legend.addTo(map);
+
+	function setMarker_Location() { 
+		console.log('set Marker_Location');
+		    var lat = (document.getElementById('latitude').value);
+    		var lng = ( document.getElementById('longitude').value);
+    		var newLatLng = new L.LatLng(lat, lng);
+    		marker.setLatLng(newLatLng);}
+
+	</script>
+
+<form>
+      <label for="latitude">Latitude:</label>
+      <input id="latitude" type="text" value = "39.663732696566846"/>
+      <label for="longitude">Longitude:</label>
+      <input id="longitude" type="text"  value = "-74.22107934951784"/>
+    </form>
+          <button onclick = "setMarker_Location()">Search</button>
+
+
+</body>
+</html>

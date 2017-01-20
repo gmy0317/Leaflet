@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Ocean Blvd.kml</name>
+	<Style id="LineStyle00">
+		<LabelStyle>
+			<color>00000000</color>
+			<scale>0</scale>
+		</LabelStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>00000000</color>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<StyleMap id="LineStyle000">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#LineStyle00</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#LineStyle001</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="LineStyle001">
+		<LabelStyle>
+			<color>00000000</color>
+			<scale>0</scale>
+		</LabelStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>00000000</color>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Placemark id="ID_00001">
+		<name>Ocean Blvd</name>
+		<Snippet maxLines="0"></Snippet>
+		<description><![CDATA[<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="margin:0px 0px 0px 0px;overflow:auto;background:#FFFFFF;">
+
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-collapse:collapse;padding:3px 3px 3px 3px">
+
+<tr style="text-align:center;font-weight:bold;background:#9CBCE2">
+
+<td>Ocean Blvd</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-spacing:0px; padding:3px 3px 3px 3px">
+
+<tr>
+
+<td>FID</td>
+
+<td>1</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>PRIME_NAME</td>
+
+<td>Ocean Blvd</td>
+
+</tr>
+
+<tr>
+
+<td>ADDR_L_FR</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>ADDR_L_TO</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>ADDR_R_FR</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>ADDR_R_TO</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>ZIPCODE_L</td>
+
+<td>08751</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>ZIPCODE_R</td>
+
+<td>08751</td>
+
+</tr>
+
+<tr>
+
+<td>ZIPNAME_L</td>
+
+<td>SEASIDE HEIGHTS</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>ZIPNAME_R</td>
+
+<td>SEASIDE HEIGHTS</td>
+
+</tr>
+
+<tr>
+
+<td>MUNI_L</td>
+
+<td>885390</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>MUNI_R</td>
+
+<td>885390</td>
+
+</tr>
+
+<tr>
+
+<td>STATE_L</td>
+
+<td>NJ</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>STATE_R</td>
+
+<td>NJ</td>
+
+</tr>
+
+<tr>
+
+<td>SYMBOLTYPE</td>
+
+<td>600</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>STATUS</td>
+
+<td>A</td>
+
+</tr>
+
+<tr>
+
+<td>SURFACE</td>
+
+<td>I</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>ZLEV_FR</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>ZLEV_TO</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>TRAVEL_DIR</td>
+
+<td>B</td>
+
+</tr>
+
+<tr>
+
+<td>ACCESSTYPE</td>
+
+<td>N</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>JURIS</td>
+
+<td>PUB</td>
+
+</tr>
+
+<tr>
+
+<td>L1_NAME</td>
+
+<td>Ocean Blvd</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>L2_NAME</td>
+
+<td>Boulevard</td>
+
+</tr>
+
+<tr>
+
+<td>H1_NAME</td>
+
+<td>County Rte 51</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>H1_SHLD</td>
+
+<td>COR</td>
+
+</tr>
+
+<tr>
+
+<td>H1_SUBSHLD</td>
+
+<td>CORM</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>H1_NUM</td>
+
+<td>51</td>
+
+</tr>
+
+<tr>
+
+<td>H2_NAME</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>H2_SHLD</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>H2_SUBSHLD</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>H2_NUM</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>H3_NAME</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>H3_SHLD</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>H3_SUBSHLD</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>H3_NUM</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>FEATSTATUS</td>
+
+<td>F</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>UPDATEDATE</td>
+
+<td>6/9/2014</td>
+
+</tr>
+
+<tr>
+
+<td>Shape_Leng</td>
+
+<td>248.691483</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>length</td>
+
+<td>0.047101</td>
+
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+</body>
+
+</html>]]></description>
+		<styleUrl>#LineStyle000</styleUrl>
+		<MultiGeometry>
+			<LineString>
+				<coordinates>
+					-74.07416919516129,39.9385741334249,0 -74.07417775739434,39.93852192018114,0 -74.07427757157159,39.93789650346271,0 
+				</coordinates>
+			</LineString>
+		</MultiGeometry>
+	</Placemark>
+</Document>
+</kml>
